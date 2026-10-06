@@ -23,6 +23,7 @@
   --border: oklch(1 0 0 / 20%); --input: oklch(1 0 0 / 20%); --ring: oklch(0.94 0.2 106);
   --hot: oklch(0.65 0.24 35); --volt: oklch(0.94 0.2 106); --ink: oklch(0.035 0 0); --paper: oklch(0.975 0.006 90);
   --hero-shade: oklch(0.025 0 0 / 82%); --hero-veil: oklch(0.025 0 0 / 30%); --hero-line: oklch(0.98 0 0 / 5%); --hero-hot-edge: oklch(0.65 0.24 35 / 12%); --ink-rule: oklch(0.04 0 0 / 35%); --watermark: oklch(0.04 0 0 / 8%);
+  --hero-ember: oklch(0.65 0.24 35 / 16%); --hero-ember-deep: oklch(0.55 0.2 35 / 10%); --hero-ember-glow: oklch(0.94 0.2 106 / 5%);
 }
 
 * { box-sizing: border-box; }
@@ -34,13 +35,22 @@ a { color: inherit; text-decoration: none; }
 
 .hero { display: grid; grid-template-rows: auto 1fr auto; position: relative; min-height: 740px; height: min(920px, 94svh); overflow: hidden; isolation: isolate; background: var(--ink); }
 .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, oklch(0.01 0 0 / 88%) 0%, oklch(0.01 0 0 / 36%) 48%, oklch(0.01 0 0 / 4%) 72%), linear-gradient(0deg, oklch(0.01 0 0 / 70%) 0%, transparent 28%); }
+/* Small dark ember accents layered over the existing background — nothing underneath changes. */
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(46% 34% at 12% 96%, var(--hero-ember) 0%, transparent 70%), radial-gradient(30% 26% at 92% 8%, var(--hero-ember-deep) 0%, transparent 72%);
+  animation: ember-breathe 7s ease-in-out infinite alternate; }
 /* Architectural shadow bands, restrained motion, and a clear portrait. */
 .hero-smoke { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
   background: linear-gradient(110deg, var(--hero-shade), transparent 56%), linear-gradient(0deg, var(--hero-shade), transparent 25%); }
 .hero-smoke::before { content: ""; position: absolute; inset: -20%; opacity: .6;
   background: repeating-linear-gradient(115deg, transparent 0 160px, var(--hero-line) 161px 162px, transparent 163px 320px), linear-gradient(115deg, transparent 35%, var(--hero-hot-edge) 48%, transparent 61%);
   animation: shadow-sweep 16s ease-in-out infinite alternate; }
+.hero-smoke::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(22% 30% at 24% 62%, var(--hero-ember-glow) 0%, transparent 74%), radial-gradient(16% 22% at 8% 88%, var(--hero-ember) 0%, transparent 78%);
+  animation: ember-drift 11s ease-in-out infinite alternate; }
 @keyframes shadow-sweep { from { transform: translate3d(-4%, 0, 0); } to { transform: translate3d(4%, -2%, 0); } }
+@keyframes ember-breathe { from { opacity: .65; } to { opacity: 1; } }
+@keyframes ember-drift { from { transform: translate3d(-1.5%, 1%, 0); opacity: .7; } to { transform: translate3d(2%, -1.5%, 0); opacity: 1; } }
 .hero-image { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 56% center; filter: contrast(1.02) saturate(1.03) brightness(1.08); }
 .topbar { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; padding: 1.2rem 3.5vw; text-transform: uppercase; font-size: .72rem; font-weight: 700; position: relative; z-index: 3; }
 .wordmark { font-family: var(--font-display); font-size: 2.1rem; line-height: 1; }
