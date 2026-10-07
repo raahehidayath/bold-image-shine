@@ -26,8 +26,8 @@
   --heat-edge: oklch(.48 .18 30 / 40%); --heat-core: oklch(.25 .08 28 / 65%); --heat-shadow: oklch(.015 0 0 / 80%); --font-contact: "Barlow Condensed", sans-serif; --name-shadow: 5px 5px 0 var(--ink), 9px 9px 0 oklch(.65 .24 35 / 40%), 0 0 60px oklch(.65 .24 35 / 22%);
   --portrait-mark: oklch(0.98 0 0 / 75%); --wordmark-shadow: 3px 3px 0 var(--ink), 5px 5px 0 oklch(0.65 0.24 35 / 45%); --wordmark-stroke: .7px;
   --signature-echo: oklch(.975 .006 90 / 62%);
-  --bubble-fill: oklch(.13 0 0 / 94%);
-  --bubble-rim: oklch(.38 .012 260 / 60%); --bubble-glow: oklch(.55 0 0 / 10%);
+  --bubble-fill: oklch(.07 0 0 / 96%); --bubble-core: oklch(.34 .018 30 / 92%);
+  --bubble-rim: oklch(.58 .022 30 / 45%); --bubble-glow: oklch(.62 .17 35 / 20%);
   --steel-edge: oklch(.34 0 0 / 65%); --steel-face: oklch(.19 0 0 / 85%); --steel-shadow: oklch(.07 0 0 / 90%);
 }
 
@@ -288,20 +288,27 @@ a:focus-visible { outline: 2px solid var(--volt); outline-offset: 6px; }
 .hero-footer { animation: content-arrive .9s 1s ease-out both; }
 /* Portrait reveals once its pixels are ready; ember bubbles carry the heat without side lighting. */
 .hero-bubbles { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-.hero-bubbles i { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: var(--bubble-fill); box-shadow: 0 0 0 .5px var(--bubble-rim), 0 0 3px var(--bubble-glow); animation: bubble-drift 6s linear infinite; }
-.hero-bubbles i:nth-child(1) { left: 7%; top: 18%; animation-delay: -2s; }
-.hero-bubbles i:nth-child(2) { left: 24%; top: 9%; animation-delay: -5s; animation-duration: 9s; }
-.hero-bubbles i:nth-child(3) { left: 39%; top: 26%; animation-delay: -1s; }
-.hero-bubbles i:nth-child(4) { left: 53%; top: 12%; animation-delay: -4s; animation-duration: 8s; }
-.hero-bubbles i:nth-child(5) { right: 5%; top: 20%; animation-delay: -3s; }
-.hero-bubbles i:nth-child(6) { right: 12%; top: 47%; animation-delay: -6s; animation-duration: 9s; }
-.hero-bubbles i:nth-child(7) { left: 3%; top: 55%; animation-delay: -4s; }
-.hero-bubbles i:nth-child(8) { left: 48%; top: 58%; animation-delay: -2s; animation-duration: 8s; }
-.hero-bubbles i:nth-child(9) { left: 20%; top: 76%; animation-delay: -5s; }
-.hero-bubbles i:nth-child(10) { right: 26%; top: 80%; animation-delay: -1s; animation-duration: 9s; }
-.hero-bubbles i:nth-child(11) { right: 4%; top: 71%; animation-delay: -3s; }
-.hero-bubbles i:nth-child(12) { left: 58%; top: 91%; animation-delay: -6s; animation-duration: 8s; }
-@keyframes bubble-drift { 0% { transform: translate3d(0, 42px, 0); opacity: 0; } 12% { opacity: .95; } 50% { transform: translate3d(-10px, -32px, 0); opacity: .9; } 88% { opacity: .8; } 100% { transform: translate3d(16px, -150px, 0); opacity: 0; } }
+.hero-bubbles i { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: radial-gradient(circle at 30% 26%, var(--bubble-core), var(--bubble-fill) 62%); box-shadow: 0 0 0 .5px var(--bubble-rim), 0 0 8px var(--bubble-glow); animation: bubble-drift 7s linear infinite; }
+.hero-bubbles i:nth-child(1) { left: 7%; top: 18%; width: 7px; height: 7px; --sway: 12px; animation-delay: -2s; }
+.hero-bubbles i:nth-child(2) { left: 24%; top: 9%; width: 4px; height: 4px; --sway: -9px; animation-delay: -5s; animation-duration: 10s; }
+.hero-bubbles i:nth-child(3) { left: 39%; top: 26%; width: 6px; height: 6px; --sway: 14px; animation-delay: -1s; animation-duration: 8s; }
+.hero-bubbles i:nth-child(4) { left: 53%; top: 12%; width: 3px; height: 3px; --sway: -7px; animation-delay: -4s; animation-duration: 9s; }
+.hero-bubbles i:nth-child(5) { right: 5%; top: 20%; width: 4px; height: 4px; --sway: 10px; animation-delay: -3s; opacity: .8; }
+.hero-bubbles i:nth-child(6) { right: 12%; top: 47%; width: 3px; height: 3px; --sway: -11px; animation-delay: -6s; animation-duration: 10s; opacity: .8; }
+.hero-bubbles i:nth-child(7) { left: 3%; top: 55%; width: 8px; height: 8px; --sway: -13px; animation-delay: -4s; animation-duration: 11s; }
+.hero-bubbles i:nth-child(8) { left: 48%; top: 58%; width: 5px; height: 5px; --sway: 9px; animation-delay: -2s; animation-duration: 8s; }
+.hero-bubbles i:nth-child(9) { left: 20%; top: 76%; width: 6px; height: 6px; --sway: -10px; animation-delay: -5s; animation-duration: 9s; }
+.hero-bubbles i:nth-child(10) { right: 26%; top: 80%; width: 4px; height: 4px; --sway: 13px; animation-delay: -1s; animation-duration: 10s; }
+.hero-bubbles i:nth-child(11) { right: 4%; top: 71%; width: 3px; height: 3px; --sway: -8px; animation-delay: -3s; opacity: .8; }
+.hero-bubbles i:nth-child(12) { left: 58%; top: 91%; width: 5px; height: 5px; --sway: 11px; animation-delay: -6s; animation-duration: 11s; }
+@keyframes bubble-drift {
+  0% { transform: translate3d(0, 48px, 0) scale(.8); opacity: 0; }
+  14% { opacity: .95; }
+  36% { transform: translate3d(var(--sway, 9px), 2px, 0) scale(1); }
+  68% { transform: translate3d(calc(var(--sway, 9px) * -1), -68px, 0) scale(1.06); }
+  88% { opacity: .8; }
+  100% { transform: translate3d(var(--sway, 9px), -180px, 0) scale(.86); opacity: 0; }
+}
 .cv-download-error a { text-decoration: underline; color: var(--volt); }
 @media (max-width: 700px) { .contact-row { gap: .5rem; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
