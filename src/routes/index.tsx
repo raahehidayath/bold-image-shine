@@ -1,10 +1,12 @@
+import { useEffect, useRef } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowDown, ArrowUpRight, Asterisk, FileText, Linkedin } from "lucide-react";
+import { ArrowDown, ArrowUpRight, FileText, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CvDownload } from "@/components/cv-download";
-import portrait from "@/assets/wahab-bold-editorial.jpg";
-import raahPreviewAsset from "@/assets/raah-e-hidayath.png.asset.json";
-import sawaaPreviewAsset from "@/assets/sawaa-enterprise.png.asset.json";
+import portraitAsset from "@/assets/wahab-reference.png.asset.json";
+const portrait = portraitAsset.url;
+import raahPreviewAsset from "@/assets/raah-preview.png.asset.json";
+import sawaaPreviewAsset from "@/assets/sawaa-preview.png.asset.json";
 
 const raahPreview = raahPreviewAsset.url;
 const sawaaPreview = sawaaPreviewAsset.url;
@@ -12,12 +14,16 @@ const sawaaPreview = sawaaPreviewAsset.url;
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Syed Abdul Wahab — Designer & Developer" },
+      { title: "Syed Abdul Wahab - Complete Portfolio" },
       { name: "description", content: "The bold portfolio of Syed Abdul Wahab, creator of Raah E Hidayath and Sawaa Enterprise." },
-      { property: "og:title", content: "Syed Abdul Wahab — Designer & Developer" },
+      { property: "og:title", content: "Syed Abdul Wahab - Complete Portfolio" },
       { property: "og:description", content: "Bold digital work, thoughtful systems, and sharp creative direction by Syed Abdul Wahab." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...(portrait.startsWith("https://") ? [
+        { property: "og:image", content: portrait },
+        { name: "twitter:image", content: portrait },
+      ] : []),
     ],
   }),
   component: Portfolio,
@@ -46,30 +52,25 @@ const projects = [
   },
 ];
 
-function Header() {
-  return (
-    <header className="topbar">
-      <a className="wordmark" href="#top" aria-label="Syed Abdul Wahab home">SAW<span>®</span></a>
-      <nav className="nav-links" aria-label="Main navigation">
-        <a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a><Link to="/cv" resetScroll>CV</Link>
-      </nav>
-    </header>
-  );
-}
-
 function Portfolio() {
+  const portraitRef = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    const img = portraitRef.current;
+    if (img?.complete && img.naturalWidth > 0) img.classList.add("is-loaded");
+    const fallback = window.setTimeout(() => img?.classList.add("is-loaded"), 1200);
+    return () => window.clearTimeout(fallback);
+  }, []);
   return (
     <main className="portfolio-shell" id="top">
       <section className="hero" aria-label="Syed Abdul Wahab introduction">
-        <div className="hero-smoke" aria-hidden="true" />
-        <img className="hero-image" src={portrait} alt="Syed Abdul Wahab in a sharply lit editorial portrait" width={1145} height={768} />
-        <Header />
+        <div className="hero-bubbles" aria-hidden="true">{Array.from({ length: 12 }, (_, index) => <i key={index} />)}</div>
+        <img ref={portraitRef} className="hero-image" src={portrait} alt="Syed Abdul Wahab in a sharply lit editorial portrait" width={1145} height={768} fetchPriority="high" onLoad={(event) => event.currentTarget.classList.add("is-loaded")} />
+        <div className="topbar" aria-hidden="true" />
+        <div className="hero-dark-accent" aria-hidden="true"><i /><i /><i /></div>
         <div className="hero-copy">
-          <p className="hero-kicker"><Asterisk /> Python developer · Designer · Builder</p>
           <h1><span>Syed</span><span className="hot-line">Abdul</span><span>Wahab<b>.</b></span></h1>
           <div className="hero-intro"><p>Thoughtful design.<br />Dependable development.</p><Button asChild variant="portfolio"><a href="#work">See the work <ArrowUpRight /></a></Button></div>
         </div>
-        <p className="portrait-caption">Python developer / Digital designer</p>
         <div className="hero-footer"><span>Code · Direction · Identity</span><a href="#work">Selected work <ArrowDown /></a><span>India / Worldwide</span></div>
       </section>
 
