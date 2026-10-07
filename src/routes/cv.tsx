@@ -7,9 +7,9 @@ import { cvProfile } from "@/data/cv";
 export const Route = createFileRoute("/cv")({
   head: () => ({
     meta: [
-      { title: "Syed Abdul Wahab — Python Developer CV" },
+      { title: "Syed Abdul Wahab - Complete Portfolio · CV" },
       { name: "description", content: "Professional CV of Syed Abdul Wahab, a Python Developer and digital builder." },
-      { property: "og:title", content: "Syed Abdul Wahab — Python Developer CV" },
+      { property: "og:title", content: "Syed Abdul Wahab - Complete Portfolio · CV" },
       { property: "og:description", content: "Python development, backend technologies, selected projects, skills and education." },
       { property: "og:type", content: "profile" },
       { name: "twitter:card", content: "summary" },
@@ -23,7 +23,6 @@ function CvPage() {
     <main className="cv-page">
       <header className="cv-nav">
         <Link to="/" className="cv-back"><ArrowLeft /> Portfolio</Link>
-        <span className="cv-mark">SAW<span>®</span></span>
         <CvDownload className="cv-download-small" />
       </header>
 

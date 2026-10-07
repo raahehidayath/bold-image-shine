@@ -1,7 +1,7 @@
 import { useState, type MouseEvent } from "react";
-import { Download, ExternalLink, LoaderCircle } from "lucide-react";
+import { Download, LoaderCircle } from "lucide-react";
 import { Button, type ButtonProps } from "@/components/ui/button";
-
+// Served from /public so it works on any domain.
 const pdfUrl = "/syed-abdul-wahab-cv.pdf";
 const filename = "Syed-Abdul-Wahab-CV.pdf";
 
@@ -20,7 +20,11 @@ export function CvDownload({ children = "Download PDF", variant = "portfolio", c
     // Keep this navigation synchronous so Safari does not block the new tab.
     const appleMobile = /iPhone|iPad|iPod/.test(navigator.userAgent)
       || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-    if (appleMobile) return;
+    if (appleMobile) {
+      event.preventDefault();
+      window.open(pdfUrl, "_blank", "noopener,noreferrer");
+      return;
+    }
     event.preventDefault();
     if (busy) return;
     setBusy(true);
@@ -57,8 +61,7 @@ export function CvDownload({ children = "Download PDF", variant = "portfolio", c
           {busy ? "Preparing PDF…" : children}
         </a>
       </Button>
-      <a className="cv-open-pdf" href={pdfUrl} target="_blank" rel="noopener noreferrer">Open PDF <ExternalLink /></a>
-      {error && <p className="cv-download-error" role="alert">Download unavailable. Open the PDF to save it.</p>}
+      {error && <p className="cv-download-error" role="alert">Download failed. Please try again.</p>}
     </div>
   );
 }
