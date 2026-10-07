@@ -1,9 +1,8 @@
 import { useState, type MouseEvent } from "react";
 import { Download, LoaderCircle } from "lucide-react";
 import { Button, type ButtonProps } from "@/components/ui/button";
-import cvAsset from "@/assets/wahab-cv.pdf.asset.json";
-
-const pdfUrl = cvAsset.url;
+// Served from /public so it works on any domain.
+const pdfUrl = "/syed-abdul-wahab-cv.pdf";
 const filename = "Syed-Abdul-Wahab-CV.pdf";
 
 export function CvDownload({ children = "Download PDF", variant = "portfolio", className }: {
@@ -62,7 +61,7 @@ export function CvDownload({ children = "Download PDF", variant = "portfolio", c
           {busy ? "Preparing PDF…" : children}
         </a>
       </Button>
-      {error && <p className="cv-download-error" role="alert">Unable to save automatically. <a href={pdfUrl} target="_blank" rel="noopener noreferrer">Open PDF to save</a>.</p>}
+      {error && <p className="cv-download-error" role="alert">Download failed. Please try again.</p>}
     </div>
   );
 }

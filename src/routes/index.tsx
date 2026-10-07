@@ -1,15 +1,10 @@
-import { useEffect, useRef } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowUpRight, FileText, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CvDownload } from "@/components/cv-download";
-import portraitAsset from "@/assets/wahab-reference.png.asset.json";
-const portrait = portraitAsset.url;
-import raahPreviewAsset from "@/assets/raah-preview.png.asset.json";
-import sawaaPreviewAsset from "@/assets/sawaa-preview.png.asset.json";
-
-const raahPreview = raahPreviewAsset.url;
-const sawaaPreview = sawaaPreviewAsset.url;
+import portrait from "@/assets/wahab-portrait.jpg";
+import raahPreview from "@/assets/raah-preview.png";
+import sawaaPreview from "@/assets/sawaa-preview.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,11 +15,8 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Bold digital work, thoughtful systems, and sharp creative direction by Syed Abdul Wahab." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      ...(portrait.startsWith("https://") ? [
-        { property: "og:image", content: portrait },
-        { name: "twitter:image", content: portrait },
-      ] : []),
     ],
+    links: [{ rel: "preload", as: "image", href: portrait, fetchPriority: "high" }],
   }),
   component: Portfolio,
 });
@@ -53,18 +45,11 @@ const projects = [
 ];
 
 function Portfolio() {
-  const portraitRef = useRef<HTMLImageElement>(null);
-  useEffect(() => {
-    const img = portraitRef.current;
-    if (img?.complete && img.naturalWidth > 0) img.classList.add("is-loaded");
-    const fallback = window.setTimeout(() => img?.classList.add("is-loaded"), 1200);
-    return () => window.clearTimeout(fallback);
-  }, []);
   return (
     <main className="portfolio-shell" id="top">
       <section className="hero" aria-label="Syed Abdul Wahab introduction">
         <div className="hero-bubbles" aria-hidden="true">{Array.from({ length: 12 }, (_, index) => <i key={index} />)}</div>
-        <img ref={portraitRef} className="hero-image" src={portrait} alt="Syed Abdul Wahab in a sharply lit editorial portrait" width={1145} height={768} fetchPriority="high" onLoad={(event) => event.currentTarget.classList.add("is-loaded")} />
+        <img className="hero-image" src={portrait} alt="Syed Abdul Wahab in a sharply lit editorial portrait" width={1145} height={768} fetchPriority="high" decoding="async" />
         <div className="topbar" aria-hidden="true" />
         <div className="hero-dark-accent" aria-hidden="true"><i /><i /><i /></div>
         <div className="hero-copy">
